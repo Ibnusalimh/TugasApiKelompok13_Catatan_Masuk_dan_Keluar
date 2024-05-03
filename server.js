@@ -214,7 +214,7 @@ function filterDataByDate(startDate, endDate) {
 }
 
 // Filter berdasarkan tanggal
-app.get("/expenses", authenticateToken, (req, res) => {
+app.get("/expenses/filter", authenticateToken, (req, res) => {
   const { startDate, endDate } = req.query;
 
   // Pastikan tanggal mulai dan tanggal akhir diisi
@@ -224,6 +224,21 @@ app.get("/expenses", authenticateToken, (req, res) => {
       .send("Both start date and end date are required for filtering.");
   }
 
-  const filteredData = filterDataByDate(startDate, endDate);
-  res.json(filteredData);
+  filterDataByDate(startDate, endDate, req, res);
 });
+
+function filterDataByDate(startDate, endDate, req, res) {
+
+  const query = "SELECT * FROM expenses WHERE user_id = ? AND date BETWEEN ? AND ?";
+  db.all(query, [req.user.id, startDate, endDate], (err, rows) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).json({ error: 'Failed to filter expenses by date' });
+    }
+    if (rows.length === 0) {
+      return res.status(404).send("Expenses not found for the selected date range.");
+    }
+    res.json(rows);
+  });
+}
+
