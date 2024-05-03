@@ -1,13 +1,36 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+@import url("https://fonts.bunny.net/css?family=poppins");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serifl;
 }
 
-input, button {
-    margin: 10px 0;
-    padding: 10px;
+.form-control:focus {
+  box-shadow: none;
+  border-color: var(--bs-primary);
+}
+
+.form-control {
+  border-radius: 0.5rem;
+  padding: 10px 18px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+input,
+button {
+  margin: 10px 0;
+  padding: 10px;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
